@@ -1,0 +1,95 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f0f4f8;
+        color: #333;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        width: 100%;
+        max-width: 600px;
+        margin: 20px auto;
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      }
+      .header {
+        background-color: #3498db;
+        color: #ffffff;
+        padding: 30px;
+        text-align: center;
+        font-size: 28px;
+        font-weight: 300;
+      }
+      .content {
+        padding: 40px;
+      }
+      .content h1 {
+        margin-top: 0;
+        color: #2c3e50;
+        font-weight: 300;
+      }
+      .content p {
+        line-height: 1.6;
+        color: #34495e;
+      }
+      .button {
+        display: inline-block;
+        padding: 15px 30px;
+        margin-top: 20px;
+        background-color: #3498db;
+        color: #ffffff;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-weight: 500;
+        font-size: 16px;
+        text-align: center;
+        border-radius: 30px;
+        transition: background-color 0.3s ease;
+      }
+      .button:hover {
+        background-color: #2980b9;
+      }
+      .footer {
+        background-color: #ecf0f1;
+        color: #7f8c8d;
+        padding: 20px;
+        text-align: center;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h2>Payroll Portal</h2>
+      </div>
+      <div class="content">
+        <h1>Welcome, {{username}}!</h1>
+        <p>Thank you for joining the Payroll Portal. We're excited to have you on board and help you manage your payroll efficiently.</p>
+        <p>To get started, click the button below to access your dashboard:</p>
+        <a href="{{url}}" class="button">Go to Dashboard</a>
+        <p>If you're unable to click the button, copy and paste the following link into your browser:</p>
+        <p>{{url}}</p>
+        <p>Here are a few things you can do with the Payroll Portal:</p>
+        <ul>
+          <li>Manage employee information</li>
+          <li>Process salaries</li>
+          <li>View salary history</li>
+          <li>Generate payroll reports</li>
+        </ul>
+        <p>If you need any assistance or have questions, our support team is here to help. Don't hesitate to reach out.</p>
+        <p>Best regards,<br />The Payroll Portal Team</p>
+      </div>
+      <div class="footer">
+        <p>&copy; 2024 Payroll Portal. All rights reserved.</p>
+      </div>
+    </div>
+  </body>
+</html>

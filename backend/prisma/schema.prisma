@@ -1,0 +1,106 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String     @id @default(cuid())
+  email     String     @unique
+  password  String
+  name      String
+  employees Employee[]
+  salaries  Salary[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model Employee {
+  id          String   @id @default(cuid())
+  staffId     String   @unique
+  name        String
+  email       String
+  position    String
+  joiningDate DateTime
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String
+  salaries    Salary[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  employeeId  String?
+}
+
+model Salary {
+  id           String        @id @default(cuid())
+  employee     Employee      @relation(fields: [employeeId], references: [id])
+  employeeId   String
+  user         User          @relation(fields: [userId], references: [id])
+  userId       String
+  month        Int
+  year         Int
+  value        Float
+  salaryTypeId String
+  type         SalaryType    @relation(fields: [salaryTypeId], references: [id])
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  transactions Transaction[]
+
+  @@unique([employeeId, month, year])
+}
+
+model SalaryType {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  Salary      Salary[]
+}
+
+model SalaryAdjustment {
+  id             String      @id @default(cuid())
+  name           String
+  description    String?
+  type           String
+  value          Float
+  formula        String?
+  isEndOfService Boolean     @default(false)
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+  Addition       Addition[]
+  Deduction      Deduction[]
+}
+
+model Addition {
+  id            String           @id @default(cuid())
+  reasonId      String
+  reason        SalaryAdjustment @relation(fields: [reasonId], references: [id])
+  transactionId String?
+  transaction   Transaction?     @relation(fields: [transactionId], references: [id])
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+}
+
+model Deduction {
+  id            String           @id @default(cuid())
+  reasonId      String
+  reason        SalaryAdjustment @relation(fields: [reasonId], references: [id])
+  transactionId String
+  transaction   Transaction      @relation(fields: [transactionId], references: [id])
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+}
+
+model Transaction {
+  id             String      @id @default(cuid())
+  salaryId       String
+  salary         Salary      @relation(fields: [salaryId], references: [id])
+  additions      Addition[]
+  deductions     Deduction[]
+  isEndOfService Boolean     @default(false)
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+}
