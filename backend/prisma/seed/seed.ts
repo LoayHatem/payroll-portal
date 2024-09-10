@@ -8,8 +8,8 @@ async function main() {
   // Create a user
   const user = await prisma.user.create({
     data: {
-      email: "admin@example.com",
-      password: "hashed_password_here", // Remember to hash this in a real scenario
+      email: "admin@mail.com",
+      password: "$2b$10$Q5lrACVTYmCmmymvbvL00.UVGx70akSr0ixExCyEzmNZvIQvl6i1u",
       name: "Admin User",
     },
   });
@@ -153,6 +153,7 @@ async function main() {
           amount: baseSalary + totalAdditions - totalDeductions,
           additions: { connect: additions.map((addition) => ({ id: addition.id })) },
           deductions: { connect: deductions.map((deduction) => ({ id: deduction.id })) },
+          salaries: { connect: employeeAllowances.map((salary) => ({ id: salary.id })) },
         },
       });
     }

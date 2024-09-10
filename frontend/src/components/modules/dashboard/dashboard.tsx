@@ -3,6 +3,10 @@ import { TotalEmployees } from "@/components/modules/dashboard/TotalEmployees";
 import { TotalSalaries } from "@/components/modules/dashboard/TotalSalaries";
 import { MonthlySalariesChart } from "@/components/modules/dashboard/MonthlySalariesChart";
 import { EmployeesByDepartmentChart } from "@/components/modules/dashboard/EmployeesByDepartmentChart";
+import { AdditionsByReasonChart } from "@/components/modules/dashboard/AdditionsByReasonChart";
+import { MonthlyAdditionsDeductionsChart } from "@/components/modules/dashboard/MonthlyAdditionsDeductionsChart";
+import { DeductionsByReasonChart } from "@/components/modules/dashboard/DeductionsByReasonChart";
+import { TotalAdditionsDeductions } from "@/components/modules/dashboard/TotalAdditionsDeductions";
 import { useDashboardStore } from "@/stores/dashboardStore";
 
 export const Dashboard: React.FC = () => {
@@ -17,15 +21,29 @@ export const Dashboard: React.FC = () => {
   }
 
   return (
-    <div className="space-y-4">
-      <h1 className="text-3xl font-bold">Dashboard</h1>
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <TotalEmployees count={stats.totalEmployees} />
-        <TotalSalaries amount={stats.totalSalaries} />
-      </div>
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+    <div className="chart-wrapper text-sm">
+      <div className="space-y-4">
+        <h1 className="text-3xl font-bold">Dashboard</h1>
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <TotalEmployees count={stats.totalEmployees} />
+          <TotalSalaries amount={stats.totalSalaries} />
+          <TotalAdditionsDeductions
+            additions={stats.totalAdditions}
+            deductions={stats.totalDeductions}
+          />
+        </div>
         <MonthlySalariesChart data={stats.monthlySalaries} />
-        <EmployeesByDepartmentChart data={stats.employeesByDepartment} />
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2">
+          <EmployeesByDepartmentChart data={stats.employeesByDepartment} />
+          <MonthlyAdditionsDeductionsChart
+            additions={stats.monthlyAdditions}
+            deductions={stats.monthlyDeductions}
+          />
+        </div>
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2">
+          <AdditionsByReasonChart data={stats.additionsByReason} />
+          <DeductionsByReasonChart data={stats.deductionsByReason} />
+        </div>
       </div>
     </div>
   );

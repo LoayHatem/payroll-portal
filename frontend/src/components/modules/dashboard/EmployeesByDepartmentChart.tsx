@@ -1,42 +1,30 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Cell, Pie, PieChart, ResponsiveContainer } from "recharts";
+import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip } from "recharts";
 
 interface EmployeesByDepartmentChartProps {
   data: { position: string; _count: number }[];
 }
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8'];
-
 export const EmployeesByDepartmentChart: React.FC<EmployeesByDepartmentChartProps> = ({ data }) => {
-  const chartData = data?.map(item => ({
-    name: item.position,
-    value: item._count
+  const chartData = data.map(item => ({
+    department: item.position,
+    count: item._count
   }));
 
   return (
-    <Card className="col-span-3">
+    <Card>
       <CardHeader>
-        <CardTitle>Employees by Department</CardTitle>
+        <CardTitle>Top 10 Departments by Employee Count</CardTitle>
       </CardHeader>
       <CardContent>
-        <ResponsiveContainer width="100%" height={350}>
-          <PieChart>
-            <Pie
-              data={chartData}
-              cx="50%"
-              cy="50%"
-              labelLine={false}
-              outerRadius={80}
-              fill="#8884d8"
-              dataKey="value"
-              label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-            >
-              {chartData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-              ))}
-            </Pie>
-          </PieChart>
+        <ResponsiveContainer width="100%" height={400}>
+          <BarChart data={chartData} layout="vertical" margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+            <XAxis type="number" />
+            <YAxis dataKey="department" type="category" width={150} />
+            <Tooltip />
+            <Bar dataKey="count" fill="#8884d8" />
+          </BarChart>
         </ResponsiveContainer>
       </CardContent>
     </Card>
