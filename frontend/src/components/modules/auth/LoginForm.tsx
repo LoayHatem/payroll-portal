@@ -14,7 +14,7 @@ export function LoginForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await login(email, password);
+      await login({ email, password });
       router.push("/dashboard");
     } catch (error) {
       console.error("Login failed:", error);
@@ -48,7 +48,10 @@ export function LoginForm() {
           />
         </div>
       </div>
-      <Button className="w-full mt-4" type="submit">
+      <Button
+        className="w-full mt-4"
+        type="submit"
+      >
         Login
       </Button>
     </form>

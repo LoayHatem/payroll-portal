@@ -1,5 +1,6 @@
-import { PrismaClient } from "@prisma/client";
+import { Addition, Deduction, PrismaClient, Salary } from "@prisma/client";
 import { generateEmployees } from "./employeeData";
+import { salaryAndAllowances } from "./salaryData";
 
 const prisma = new PrismaClient();
 
@@ -26,11 +27,11 @@ async function main() {
   });
 
   // Create salary adjustments
-  const salaryAdjustments = await prisma.salaryAdjustment.createMany({
-    data: [
-      // ... (keep the existing salary adjustments data)
-    ],
+  await prisma.salaryAdjustment.createMany({
+    data: salaryAndAllowances,
   });
+
+  const allSalaryAdjustments = await prisma.salaryAdjustment.findMany();
 
   const employees = generateEmployees(300);
 
@@ -46,11 +47,7 @@ async function main() {
     });
     // Generate a random month and year in the last 7 years
     const currentDate = new Date();
-    const randomDate = new Date(
-      currentDate.getFullYear() - Math.floor(Math.random() * 7),
-      Math.floor(Math.random() * 12),
-      1
-    );
+    const randomDate = new Date(currentDate.getFullYear() - Math.floor(Math.random() * 7), Math.floor(Math.random() * 12), 1);
 
     // Create basic salary for the employee
     await prisma.salary.create({
@@ -59,10 +56,12 @@ async function main() {
         userId: user.id,
         month: randomDate.getMonth() + 1,
         year: randomDate.getFullYear(),
-        value: employeeData.salary,
+        amount: employeeData.salary,
         salaryTypeId: (await prisma.salaryType.findFirst({ where: { name: "Basic Salary" } }))!.id,
       },
     });
+
+    const employeeAllowances: Salary[] = [];
 
     // Create allowances for the employee
     for (const [allowanceName, allowanceValue] of Object.entries(employeeData.allowances)) {
@@ -71,17 +70,91 @@ async function main() {
       });
 
       if (salaryType) {
-        await prisma.salary.create({
+        const salary = await prisma.salary.create({
           data: {
             employeeId: employee.id,
             userId: user.id,
             month: randomDate.getMonth() + 1,
             year: randomDate.getFullYear(),
-            value: allowanceValue,
+            amount: allowanceValue,
             salaryTypeId: salaryType.id,
           },
         });
+        employeeAllowances.push(salary);
       }
+    }
+
+    // Create transactions for 9 months (January 2024 to September 2024)
+    for (let month = 1; month <= 9; month++) {
+      const transactionStates = ["pending", "inprogress", "paid"];
+      const randomState = transactionStates[Math.floor(Math.random() * transactionStates.length)];
+
+      const baseSalary = employeeAllowances.reduce((acc, salary) => acc + salary.amount, 0);
+
+      // Create transaction
+      const transaction = await prisma.transaction.create({
+        data: {
+          employeeId: employee.id,
+          status: randomState,
+          dueDate: new Date(2024, month - 1, 28), // Set due date to 28th of each month
+          amount: baseSalary,
+        },
+      });
+
+      // Generate random additions and deductions
+      const additionAdjustments = allSalaryAdjustments.filter((adjustment) => adjustment.type === "addition");
+      const deductionAdjustments = allSalaryAdjustments.filter((adjustment) => adjustment.type === "deduction");
+
+      let totalAdditions = 0;
+      let totalDeductions = 0;
+
+      const additions: Addition[] = [];
+
+      // Create additions
+      for (const adjustment of additionAdjustments) {
+        if (Math.random() < 0.3) {
+          // 30% chance of having this addition
+          const amount = adjustment.amount > 0 ? adjustment.amount : Math.round(baseSalary * Math.random() * 0.1);
+          totalAdditions += amount;
+          const addition = await prisma.addition.create({
+            data: {
+              reasonId: adjustment.id,
+              transactionId: transaction.id,
+              amount: amount,
+            },
+          });
+          additions.push(addition);
+        }
+      }
+
+      const deductions: Deduction[] = [];
+
+      // Create deductions
+      for (const adjustment of deductionAdjustments) {
+        if (Math.random() < 0.3) {
+          // 30% chance of having this deduction
+          const amount = adjustment.amount > 0 ? adjustment.amount : Math.round(baseSalary * Math.random() * 0.05);
+          totalDeductions += amount;
+          const deduction = await prisma.deduction.create({
+            data: {
+              reasonId: adjustment.id,
+              transactionId: transaction.id,
+              amount: amount,
+            },
+          });
+          deductions.push(deduction);
+        }
+      }
+
+      // Update transaction with total amount
+      await prisma.transaction.update({
+        where: { id: transaction.id },
+        data: {
+          amount: baseSalary + totalAdditions - totalDeductions,
+          additions: { connect: additions.map((addition) => ({ id: addition.id })) },
+          deductions: { connect: deductions.map((deduction) => ({ id: deduction.id })) },
+        },
+      });
     }
   }
 }

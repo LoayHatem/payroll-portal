@@ -5,7 +5,6 @@ import { BaseEndpoint } from "./baseEndpoint";
 
 export interface IValidationReturn {
   valid: boolean;
-  emailVerified: boolean;
 }
 
 export class AuthEndpoint extends BaseEndpoint {

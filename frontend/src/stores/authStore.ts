@@ -1,26 +1,44 @@
 import { create } from "zustand";
 import { api } from "../api/api";
-import type { IUser } from "@/types/user.types";
+import { useUserStore } from "./userStore";
 
 interface AuthStore {
-  user: IUser | null;
+  isAuthenticated: boolean;
+  validateToken: () => Promise<boolean>;
   login: (credentials: { email: string; password: string }) => Promise<void>;
   signup: (userData: { email: string; password: string; name: string }) => Promise<void>;
   logout: () => Promise<void>;
 }
 
 export const useAuthStore = create<AuthStore>((set) => ({
-  user: null,
+  isAuthenticated: false,
+  validateToken: async () => {
+    const { valid } = await api.auth.validateToken();
+    if (valid) {
+      set({ isAuthenticated: true });
+      return true;
+    }
+    set({ isAuthenticated: false });
+    return false;
+  },
   login: async (credentials) => {
-    const { user } = await api.auth.login(credentials.email, credentials.password);
-    set({ user });
+    await api.auth.login(credentials.email, credentials.password);
+    set({ isAuthenticated: true });
+    await useUserStore.getState().fetchProfile();
   },
   signup: async (userData) => {
-    const { profile } = await api.auth.signUp(userData.email, userData.password, userData.name);
-    set({ user: profile });
+    const { profile, errorMessage } = await api.auth.signUp(userData.email, userData.password, userData.name);
+    if (errorMessage) {
+      console.error(errorMessage);
+    }
+    if (profile) {
+      set({ isAuthenticated: true });
+      useUserStore.getState().setProfile(profile);
+    }
   },
   logout: async () => {
     await api.auth.logout();
-    set({ user: null });
+    set({ isAuthenticated: false });
+    useUserStore.getState().clearProfile();
   },
 }));

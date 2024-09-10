@@ -18,7 +18,7 @@ export const authenticateTokenMW = (req: Request, res: Response, next: NextFunct
     if (err) return res.sendStatus(403);
     // Ensure the decoded object is of type UserPayload
     const user = decoded as TUserPayload;
-    const dbUser = await prisma.user.findUnique({ where: { id: user.id }, select: { id: true, email: true, username: true } });
+    const dbUser = await prisma.user.findUnique({ where: { id: user.id }, select: { id: true, email: true } });
     if (!dbUser) {
       res.clearCookie("token");
       return res.sendStatus(403);
