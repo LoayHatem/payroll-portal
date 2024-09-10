@@ -10,7 +10,7 @@
     "start": "prisma migrate deploy && node dist/main"
   },
   "prisma": {
-    "seed": "npx ts-node seed/seed.ts"
+    "seed": "ts-node prisma/seed/seed.ts"
   },
   "keywords": [],
   "author": "",

@@ -19,17 +19,16 @@ model User {
 }
 
 model Employee {
-  id          String   @id @default(cuid())
-  staffId     String   @unique
+  id          String    @id @default(cuid())
   name        String
   email       String
   position    String
-  joiningDate DateTime
-  user        User     @relation(fields: [userId], references: [id])
+  joiningDate DateTime?
+  user        User      @relation(fields: [userId], references: [id])
   userId      String
   salaries    Salary[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
   employeeId  String?
 }
 
@@ -47,8 +46,6 @@ model Salary {
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
   transactions Transaction[]
-
-  @@unique([employeeId, month, year])
 }
 
 model SalaryType {
@@ -67,6 +64,7 @@ model SalaryAdjustment {
   type           String
   value          Float
   formula        String?
+  variables      String?
   isEndOfService Boolean     @default(false)
   createdAt      DateTime    @default(now())
   updatedAt      DateTime    @updatedAt

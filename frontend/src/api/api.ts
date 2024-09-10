@@ -9,7 +9,7 @@ class ApiClass {
   public user = new UserEndpoint(this.axios);
 
   constructor() {
-    this.axios.defaults.baseURL = process.env.API_URL;
+    this.axios.defaults.baseURL = "http://localhost:3009/api";
 
     this.axios.interceptors.request.use(
       (config) => {

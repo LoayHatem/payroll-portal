@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 export function RegisterForm() {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -19,7 +20,7 @@ export function RegisterForm() {
       return;
     }
     try {
-      await signup(email, password);
+      await signup({ name, email, password });
       router.push("/dashboard");
     } catch (error) {
       console.error("Registration failed:", error);
@@ -30,6 +31,17 @@ export function RegisterForm() {
   return (
     <form onSubmit={handleSubmit}>
       <div className="grid w-full items-center gap-4">
+        <div className="flex flex-col space-y-1.5">
+          <Label htmlFor="name">Name</Label>
+          <Input
+            id="name"
+            type="text"
+            placeholder="Enter your name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+        </div>
         <div className="flex flex-col space-y-1.5">
           <Label htmlFor="email">Email</Label>
           <Input
@@ -64,7 +76,10 @@ export function RegisterForm() {
           />
         </div>
       </div>
-      <Button className="w-full mt-4" type="submit">
+      <Button
+        className="w-full mt-4"
+        type="submit"
+      >
         Register
       </Button>
     </form>

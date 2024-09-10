@@ -8,7 +8,7 @@ export const signUpDto = (body: Record<string, any>) => {
   if (!body?.email || !body?.password) {
     return throwError("Email and password are required");
   }
-  const { email, password } = body;
+  const { email, password, name } = body;
 
-  return { email, password };
+  return { email, password, name };
 };

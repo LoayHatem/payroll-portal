@@ -4,19 +4,19 @@ import type { IUser } from "@/types/user.types";
 
 interface AuthStore {
   user: IUser | null;
-  login: (email: string, password: string) => Promise<void>;
-  signup: (email: string, password: string) => Promise<void>;
+  login: (credentials: { email: string; password: string }) => Promise<void>;
+  signup: (userData: { email: string; password: string; name: string }) => Promise<void>;
   logout: () => Promise<void>;
 }
 
 export const useAuthStore = create<AuthStore>((set) => ({
   user: null,
-  login: async (email, password) => {
-    const { user } = await api.auth.login(email, password);
+  login: async (credentials) => {
+    const { user } = await api.auth.login(credentials.email, credentials.password);
     set({ user });
   },
-  signup: async (email, password) => {
-    const { profile } = await api.auth.signUp(email, password);
+  signup: async (userData) => {
+    const { profile } = await api.auth.signUp(userData.email, userData.password, userData.name);
     set({ user: profile });
   },
   logout: async () => {
