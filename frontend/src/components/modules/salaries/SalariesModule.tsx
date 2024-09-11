@@ -8,6 +8,7 @@ import { SalariesTable } from "./SalariesTable";
 import { SalariesConfirmation } from "./SalariesConfirmation";
 import { Button } from "@/components/ui/button";
 import { SalariesSuccessPage } from "./SalariesSuccessPage";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default function SalariesModule() {
   const { employees, fetchEmployees } = useEmployeeStore();
@@ -70,28 +71,43 @@ export default function SalariesModule() {
   };
 
   return (
-    <div className="relative min-h-screen pb-16">
-      <h1 className="text-2xl font-bold mb-4">Salaries</h1>
-      {step === 1 ? (
-        <SalariesTable
-          transactions={transactions}
-          setTransactions={setTransactions}
-        />
-      ) : step === 2 ? (
-        <SalariesConfirmation
-          transactions={transactions}
-          setTransactions={setTransactions}
-        />
-      ) : (
-        <SalariesSuccessPage transactions={processedTransactions} />
-      )}
-      <div className="fixed bottom-0 left-0 right-0 bg-white p-4 shadow-md">
-        <div className="container mx-auto flex justify-between">
-          {step === 2 && <Button onClick={handlePrevious}>Previous</Button>}
+    <div className="relative h-screen overflow-hidden">
+      <ScrollArea
+        className="overflow-y-auto px-8 pt-8"
+        style={{ height: "calc(100vh - 70px)" }}
+      >
+        <h1 className="text-2xl font-bold mb-4">Salaries</h1>
+        {step === 1 ? (
+          <SalariesTable
+            transactions={transactions}
+            setTransactions={setTransactions}
+          />
+        ) : step === 2 ? (
+          <SalariesConfirmation
+            transactions={transactions}
+            setTransactions={setTransactions}
+          />
+        ) : (
+          <SalariesSuccessPage transactions={processedTransactions} />
+        )}
+      </ScrollArea>
+      <div className="bottom-0 left-0 right-0 bg-white p-4 shadow-[0px_-5px_42px_0px_rgba(0,0,0,0.15)]">
+        <div className="container mx-auto flex justify-between items-center">
+          {step === 2 && (
+            <Button
+              size="lg"
+              onClick={handlePrevious}
+              variant="outline"
+            >
+              Previous
+            </Button>
+          )}
+          {step === 1 && <div className="text-md text-gray-600">Set the month/year for Employees salaries to be processed</div>}
           {step === 1 ? (
             <Button
               onClick={handleNext}
               className="ml-auto"
+              size="lg"
             >
               Next
             </Button>
@@ -100,6 +116,8 @@ export default function SalariesModule() {
               onClick={handleProcessSalaries}
               className="ml-auto"
               disabled={isProcessing}
+              size="lg"
+              variant="destructive"
             >
               {isProcessing ? "Processing..." : "Process Salaries"}
             </Button>
@@ -110,6 +128,7 @@ export default function SalariesModule() {
                 setTransactions([]);
                 setProcessedTransactions([]);
               }}
+              size="lg"
               className="ml-auto"
             >
               Process New Salaries
