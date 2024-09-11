@@ -98,18 +98,24 @@ export default function EmployeesTable({ openEditPanel, openAddPanel }: Employee
     enableGrouping: true,
     enableStickyHeader: true,
     enableStickyFooter: true,
-    initialState: { showColumnFilters: true, showGlobalFilter: true },
+    initialState: {
+      showColumnFilters: true,
+      showGlobalFilter: true,
+      density: "xs",
+      pagination: { pageIndex: 0, pageSize: 30 },
+    },
     mantineToolbarAlertBannerBadgeProps: { color: "red", variant: "outline" },
     mantineSearchTextInputProps: {
       placeholder: "Search Employees",
     },
     mantineTableContainerProps: { sx: { maxHeight: "calc(100vh - 125px)" } },
     displayColumnDefOptions: {
-      'mrt-row-actions': {
-        header: '#',
+      "mrt-row-actions": {
+        header: "#",
         size: 50,
       },
     },
+    mantineToolbarAlertBannerProps: { color: "red", variant: "outline" },
     renderRowActionMenuItems: ({ row }) => (
       <>
         <Menu.Item

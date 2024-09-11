@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { useAuthStore } from '@/stores/authStore';
-import { FaUser, FaMoneyBill, FaSignOutAlt, FaTachometerAlt, FaCog } from 'react-icons/fa';
+import { FaUser, FaMoneyBill, FaSignOutAlt, FaTachometerAlt, FaCog, FaHistory } from 'react-icons/fa';
 import { useUserStore } from '@/stores/userStore';
 
 export const Sidebar: React.FC = () => {
@@ -56,6 +56,15 @@ export const Sidebar: React.FC = () => {
           >
             <FaCog className="mr-2" />
             Settings
+          </Button>
+        </Link>
+        <Link href="/dashboard/payment-history" passHref>
+          <Button
+            variant={pathname.includes('/payment-history') ? 'default' : 'ghost'}
+            className="w-full justify-start mb-2 flex items-center"
+          >
+            <FaHistory className="mr-2" />
+            Payment History
           </Button>
         </Link>
       </nav>

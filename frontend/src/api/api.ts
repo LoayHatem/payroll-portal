@@ -1,10 +1,10 @@
 import axios from "axios";
 import { EmployeeEndpoint } from "./endpoints/employeeEndpoint";
 import { CustomFieldEndpoint } from "./endpoints/customFieldEndpoint";
-
 import { AuthEndpoint } from "./endpoints/authEndpoint";
 import { UserEndpoint } from "./endpoints/userEndpoint";
 import { DashboardEndpoint } from "./endpoints/dashboardEndpoint";
+import { TransactionEndpoint } from "./endpoints/transactionEndpoint";
 
 class ApiClass {
   public auth = new AuthEndpoint(this.axios);
@@ -12,6 +12,7 @@ class ApiClass {
   public dashboard = new DashboardEndpoint(this.axios);
   public employee = new EmployeeEndpoint(this.axios);
   public customField = new CustomFieldEndpoint(this.axios);
+  public transaction = new TransactionEndpoint(this.axios);
 
   constructor() {
     this.axios.defaults.baseURL = "http://localhost:3009/api";
