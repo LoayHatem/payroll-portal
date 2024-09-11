@@ -11,7 +11,7 @@ export const salaryAndAllowances = [
     description: "Gratuity based on UAE labor law",
     amount: 0,
     formula:
-      "IF(yearsOfService < 5, basicSalary * yearsOfService * (21/30), basicSalary * 5 * (21/30) + basicSalary * (yearsOfService - 5) * (30/30))",
+      "yearsOfService < 5 ? basicSalary * yearsOfService * (21/30) : basicSalary * 5 * (21/30) + basicSalary * (yearsOfService - 5) * (30/30)",
     isEndOfService: true,
     type: "addition",
   },

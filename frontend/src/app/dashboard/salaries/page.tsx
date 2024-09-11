@@ -1,10 +1,9 @@
-import React from 'react';
+import SalariesModule from "@/components/modules/salaries/SalariesModule";
 
 export default function SalariesPage() {
   return (
-    <div>
-      <h1 className="text-3xl font-bold mb-6">Salaries</h1>
-      {/* Add salary processing functionality here */}
+    <div className="container mx-auto p-4">
+      <SalariesModule />
     </div>
   );
 }

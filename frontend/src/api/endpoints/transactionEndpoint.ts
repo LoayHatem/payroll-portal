@@ -3,14 +3,16 @@ import { Employee } from "./employeeEndpoint";
 
 export interface Addition {
   id: string;
-  name: string;
+  reasonId: string;
   amount: number;
+  name: string;
 }
 
 export interface Deduction {
   id: string;
-  name: string;
+  reasonId: string;
   amount: number;
+  name: string;
 }
 
 export interface Salary {
@@ -27,6 +29,7 @@ export interface Transaction {
   amount: number;
   additions: Addition[];
   deductions: Deduction[];
+  isEndOfService: boolean;
 }
 
 export class TransactionEndpoint extends BaseEndpoint {

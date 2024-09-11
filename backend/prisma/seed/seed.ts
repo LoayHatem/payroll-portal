@@ -42,7 +42,6 @@ async function main() {
         email: employeeData.email,
         position: employeeData.position,
         joiningDate: employeeData.joiningDate,
-        userId: user.id,
       },
     });
     // Generate a random month and year in the last 7 years
@@ -53,7 +52,6 @@ async function main() {
     await prisma.salary.create({
       data: {
         employeeId: employee.id,
-        userId: user.id,
         month: randomDate.getMonth() + 1,
         year: randomDate.getFullYear(),
         amount: employeeData.salary,
@@ -73,7 +71,6 @@ async function main() {
         const salary = await prisma.salary.create({
           data: {
             employeeId: employee.id,
-            userId: user.id,
             month: randomDate.getMonth() + 1,
             year: randomDate.getFullYear(),
             amount: allowanceValue,

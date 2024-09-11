@@ -8,6 +8,7 @@ export const getEmployeesWithTotalSalary = async () => {
       salaries: {
         select: {
           amount: true,
+          id: true,
         },
       },
     },

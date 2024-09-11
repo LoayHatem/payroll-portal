@@ -10,6 +10,7 @@ export interface Employee {
   createdAt: string;
   updatedAt: string;
   totalSalary: number;
+  salaries: { amount: number; id: string }[];
 }
 
 export interface Salary {
