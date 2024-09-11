@@ -14,7 +14,7 @@ export function SalariesTable({ transactions, setTransactions }: SalariesTablePr
 
   const handleDateChange = (id: string, date: string) => {
     setTransactions(prev =>
-      prev.map(t => t.employeeId === id ? { ...t, processDate: date } : t)
+      prev.map(t => t.employeeId === id ? { ...t, dueDate: date } : t)
     );
   };
 
@@ -59,14 +59,14 @@ export function SalariesTable({ transactions, setTransactions }: SalariesTablePr
               <TableCell>
                 <input
                   type="month"
-                  value={transaction.processDate.slice(0, 7)}
+                  value={transaction.dueDate?.slice(0, 7) || ''}
                   onChange={(e) => handleDateChange(transaction.employeeId, e.target.value)}
                   className="border rounded p-1"
                 />
               </TableCell>
-              <TableCell>{transaction.salaries?.reduce((sum, s) => sum + s.amount, 0)}</TableCell>
+              <TableCell>${transaction.salaries?.reduce((sum, s) => sum + s.amount, 0).toLocaleString()}</TableCell>
               <TableCell>
-                {transaction.additions.reduce((sum, a) => sum + a.amount, 0)}
+                ${transaction.additions.reduce((sum, a) => sum + a.amount, 0).toLocaleString()}
                 <Edit2 
                   className="inline-block ml-2 cursor-pointer" 
                   size={16} 
@@ -74,14 +74,14 @@ export function SalariesTable({ transactions, setTransactions }: SalariesTablePr
                 />
               </TableCell>
               <TableCell>
-                {transaction.deductions.reduce((sum, d) => sum + d.amount, 0)}
+                ${transaction.deductions.reduce((sum, d) => sum + d.amount, 0).toLocaleString()}
                 <Edit2 
                   className="inline-block ml-2 cursor-pointer" 
                   size={16} 
                   onClick={() => handleEditAdditionsDeductions(transaction.employeeId)}
                 />
               </TableCell>
-              <TableCell>{transaction.amount}</TableCell>
+              <TableCell>${transaction.amount.toLocaleString()}</TableCell>
               <TableCell>
                 <input
                   type="checkbox"

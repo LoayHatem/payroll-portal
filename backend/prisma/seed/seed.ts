@@ -94,6 +94,7 @@ async function main() {
           employeeId: employee.id,
           status: randomState,
           dueDate: new Date(2024, month - 1, 28), // Set due date to 28th of each month
+          processDate: new Date(2024, month - 1, 25), // Set process date to 25th of each month
           amount: baseSalary,
         },
       });

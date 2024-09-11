@@ -24,7 +24,8 @@ export interface Transaction {
   id: string;
   employeeId: string;
   employee: Employee;
-  processDate: string;
+  processDate?: string;
+  dueDate?: string;
   salaries: Salary[];
   amount: number;
   additions: Addition[];
@@ -38,8 +39,8 @@ export class TransactionEndpoint extends BaseEndpoint {
     return res.data;
   }
 
-  async createTransaction(transaction: Partial<Transaction>) {
-    const res = await this.axios.post<{ transaction: Transaction }>("/transactions", transaction);
+  async createTransaction(transactions: Partial<Transaction>[]) {
+    const res = await this.axios.post<{ transactions: Transaction[] }>("/transactions", transactions);
     return res.data;
   }
 }

@@ -5,7 +5,7 @@ import type { Transaction } from "@/api/endpoints/transactionEndpoint";
 interface TransactionStore {
   transactions: Transaction[] | null;
   fetchTransactions: () => Promise<void>;
-  createTransaction: (transaction: Partial<Transaction>) => Promise<void>;
+  createTransactions: (transaction: Partial<Transaction>[]) => Promise<Transaction[]>;
 }
 
 export const useTransactionStore = create<TransactionStore>((set) => ({
@@ -14,8 +14,9 @@ export const useTransactionStore = create<TransactionStore>((set) => ({
     const { transactions } = await api.transaction.getTransactions();
     set({ transactions });
   },
-  createTransaction: async (transaction) => {
-    const { transaction: newTransaction } = await api.transaction.createTransaction(transaction);
-    set((state) => ({ transactions: [...(state.transactions || []), newTransaction] }));
+  createTransactions: async (transaction) => {
+    const { transactions: newTransactions } = await api.transaction.createTransaction(transaction);
+    set((state) => ({ transactions: [...(state.transactions || []), ...newTransactions] }));
+    return newTransactions;
   },
 }));
