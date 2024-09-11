@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { api } from "../api/api";
-import type { Employee } from "@/api/endpoints/employeeEndpoint";
+import type { Employee, Salary, SalaryType } from "@/api/endpoints/employeeEndpoint";
 
 interface EmployeeStore {
   employees: Employee[] | null;
@@ -8,6 +8,10 @@ interface EmployeeStore {
   addEmployee: (employee: Employee) => Promise<void>;
   updateEmployee: (id: string, employee: Employee) => Promise<void>;
   deleteEmployee: (id: string) => Promise<void>;
+  fetchEmployeeSalaries: (employeeId: string) => Promise<Salary[]>;
+  addEmployeeSalary: (employeeId: string, salary: Salary) => Promise<Salary>;
+  deleteEmployeeSalary: (employeeId: string, salaryId: string) => Promise<void>;
+  fetchSalaryTypes: () => Promise<SalaryType[]>;
 }
 
 export const useEmployeeStore = create<EmployeeStore>((set) => ({
@@ -31,5 +35,20 @@ export const useEmployeeStore = create<EmployeeStore>((set) => ({
     set((state) => ({
       employees: state.employees?.filter((e) => e.id !== id) || null,
     }));
+  },
+  fetchEmployeeSalaries: async (employeeId) => {
+    const { salaries } = await api.employee.getEmployeeSalaries(employeeId);
+    return salaries;
+  },
+  addEmployeeSalary: async (employeeId, salary) => {
+    const { salary: newSalary } = await api.employee.addEmployeeSalary(employeeId, salary);
+    return newSalary;
+  },
+  deleteEmployeeSalary: async (employeeId, salaryId) => {
+    await api.employee.deleteEmployeeSalary(employeeId, salaryId);
+  },
+  fetchSalaryTypes: async () => {
+    const { salaryTypes } = await api.employee.getSalaryTypes();
+    return salaryTypes;
   },
 }));

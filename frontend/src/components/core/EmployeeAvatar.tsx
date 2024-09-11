@@ -32,6 +32,7 @@ const EmployeeAvatar: React.FC<EmployeeAvatarProps> = ({ name, size = 40 }) => {
       className={`flex items-center justify-center rounded-sm  text-white`}
       style={{
         width: `${size}px`,
+        minWidth: `${size}px`,
         height: `${size}px`,
         backgroundColor,
         fontSize: `${size / 2.5}px`,
