@@ -29,10 +29,10 @@ export const MonthlySalariesChart: React.FC<MonthlySalariesChartProps> = ({ data
             />
             <YAxis
               stroke="#888888"
-              fontSize={12}
+              fontSize={10}
               tickLine={false}
               axisLine={false}
-              tickFormatter={(value) => `$${value}`}
+              tickFormatter={(value) => `$${value.toLocaleString()}`}
             />
             <Bar dataKey="total" fill="#adfa1d" radius={[4, 4, 0, 0]} />
           </BarChart>
