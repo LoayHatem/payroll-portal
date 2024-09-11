@@ -1,21 +1,27 @@
-import './globals.css'
-import { Inter } from 'next/font/google'
+import type { Metadata } from "next";
+import { AuthProvider } from "@/components/common/AuthProvider";
+import { StoreProvider } from '@/components/common/StoreProvider';
+import "./globals.css";
 
-const inter = Inter({ subsets: ['latin'] })
-
-export const metadata = {
-  title: 'YourApp - Manage Your Finances',
-  description: 'Easy budgeting, expense tracking, and financial insights',
-}
+export const metadata: Metadata = {
+  title: "Payroll Portal",
+  description: "Manage employees and process salaries",
+};
 
 export default function RootLayout({
   children,
-}: {
-  children: React.ReactNode
-}) {
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body>
+        <AuthProvider>
+          <StoreProvider>
+            {children}
+          </StoreProvider>
+        </AuthProvider>
+      </body>
     </html>
-  )
+  );
 }
