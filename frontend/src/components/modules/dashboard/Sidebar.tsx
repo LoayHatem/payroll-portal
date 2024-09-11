@@ -49,15 +49,6 @@ export const Sidebar: React.FC = () => {
             Salaries
           </Button>
         </Link>
-        <Link href="/dashboard/settings" passHref>
-          <Button
-            variant={pathname.includes('/settings') ? 'default' : 'ghost'}
-            className="w-full justify-start mb-2 flex items-center"
-          >
-            <FaCog className="mr-2" />
-            Settings
-          </Button>
-        </Link>
         <Link href="/dashboard/payment-history" passHref>
           <Button
             variant={pathname.includes('/payment-history') ? 'default' : 'ghost'}
@@ -65,6 +56,15 @@ export const Sidebar: React.FC = () => {
           >
             <FaHistory className="mr-2" />
             Payment History
+          </Button>
+        </Link>
+        <Link href="/dashboard/settings" passHref>
+          <Button
+            variant={pathname.includes('/settings') ? 'default' : 'ghost'}
+            className="w-full justify-start mb-2 flex items-center"
+          >
+            <FaCog className="mr-2" />
+            Settings
           </Button>
         </Link>
       </nav>
