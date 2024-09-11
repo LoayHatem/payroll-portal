@@ -1,13 +1,5 @@
-import React, { useState } from 'react';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-  TableFooter,
-} from "@/components/ui/table";
+import React, { useState } from "react";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, TableFooter } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -60,7 +52,16 @@ const SalariesTable: React.FC<SalariesTableProps> = ({ salaries, salaryTypes, on
               <TableCell>{salary.amount}</TableCell>
               <TableCell>{salary.type.name}</TableCell>
               <TableCell>
-                <Button variant="destructive" onClick={() => onDeleteSalary(salary.id)}>Delete</Button>
+                <Button
+                  variant="destructive"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    onDeleteSalary(salary.id);
+                  }}
+                >
+                  Delete
+                </Button>
               </TableCell>
             </TableRow>
           ))}
@@ -70,7 +71,7 @@ const SalariesTable: React.FC<SalariesTableProps> = ({ salaries, salaryTypes, on
                 type="number"
                 name="month"
                 placeholder="Month"
-                value={newSalary.month || ''}
+                value={newSalary.month || ""}
                 onChange={handleInputChange}
               />
             </TableCell>
@@ -79,7 +80,7 @@ const SalariesTable: React.FC<SalariesTableProps> = ({ salaries, salaryTypes, on
                 type="number"
                 name="year"
                 placeholder="Year"
-                value={newSalary.year || ''}
+                value={newSalary.year || ""}
                 onChange={handleInputChange}
               />
             </TableCell>
@@ -88,33 +89,48 @@ const SalariesTable: React.FC<SalariesTableProps> = ({ salaries, salaryTypes, on
                 type="number"
                 name="amount"
                 placeholder="Amount"
-                value={newSalary.amount || ''}
+                value={newSalary.amount?.toLocaleString() || ""}
                 onChange={handleInputChange}
               />
             </TableCell>
             <TableCell>
-              <Select onValueChange={handleSalaryTypeChange} value={newSalary.salaryTypeId}>
+              <Select
+                onValueChange={handleSalaryTypeChange}
+                value={newSalary.salaryTypeId}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="Select type" />
                 </SelectTrigger>
                 <SelectContent>
-                  {salaryTypes && salaryTypes.map((type) => (
-                    <SelectItem key={type.id} value={type.id}>
-                      {type.name}
-                    </SelectItem>
-                  ))}
+                  {salaryTypes &&
+                    salaryTypes.map((type) => (
+                      <SelectItem
+                        key={type.id}
+                        value={type.id}
+                      >
+                        {type.name}
+                      </SelectItem>
+                    ))}
                 </SelectContent>
               </Select>
             </TableCell>
             <TableCell>
-              <Button onClick={handleAddSalary}>Add</Button>
+              <Button
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  handleAddSalary();
+                }}
+              >
+                Add
+              </Button>
             </TableCell>
           </TableRow>
         </TableBody>
         <TableFooter>
           <TableRow>
             <TableCell colSpan={2}>Total</TableCell>
-            <TableCell>{totalAmount}</TableCell>
+            <TableCell>{totalAmount.toLocaleString()}</TableCell>
             <TableCell colSpan={2}></TableCell>
           </TableRow>
         </TableFooter>

@@ -18,18 +18,19 @@ model User {
 }
 
 model Employee {
-  id           String        @id @default(cuid())
-  name         String
-  email        String
-  position     String
-  joiningDate  DateTime?
-  user         User          @relation(fields: [userId], references: [id])
-  userId       String
-  salaries     Salary[]
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  deletedAt    DateTime?
-  transactions Transaction[]
+  id              String            @id @default(cuid())
+  name            String
+  email           String
+  position        String
+  joiningDate     DateTime?
+  user            User              @relation(fields: [userId], references: [id])
+  userId          String
+  salaries        Salary[]
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  deletedAt       DateTime?
+  transactions    Transaction[]
+  customFieldData CustomFieldData[]
 }
 
 model Salary {
@@ -38,7 +39,7 @@ model Salary {
   employeeId   String
   month        Int
   year         Int
-  amount        Float
+  amount       Float
   salaryTypeId String
   type         SalaryType    @relation(fields: [salaryTypeId], references: [id])
   createdAt    DateTime      @default(now())
@@ -60,7 +61,7 @@ model SalaryAdjustment {
   name           String
   description    String?
   type           String
-  amount          Float
+  amount         Float
   formula        String?
   variables      String?
   isEndOfService Boolean     @default(false)
@@ -106,4 +107,26 @@ model Transaction {
   processDate    DateTime?
   createdAt      DateTime    @default(now())
   updatedAt      DateTime    @updatedAt
+}
+
+model CustomField {
+  id              String            @id @default(cuid())
+  name            String
+  type            String // e.g., "text", "number", "date", etc.
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  customFieldData CustomFieldData[]
+}
+
+model CustomFieldData {
+  id            String      @id @default(cuid())
+  value         String
+  employee      Employee    @relation(fields: [employeeId], references: [id])
+  employeeId    String
+  customField   CustomField @relation(fields: [customFieldId], references: [id])
+  customFieldId String
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@unique([employeeId, customFieldId])
 }

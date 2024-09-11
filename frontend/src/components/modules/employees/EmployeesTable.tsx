@@ -82,7 +82,7 @@ export default function EmployeesTable({ openEditPanel }: EmployeesTableProps) {
           }),
       },
     ],
-    [openEditPanel],
+    [],
   );
 
   const table = useMantineReactTable({

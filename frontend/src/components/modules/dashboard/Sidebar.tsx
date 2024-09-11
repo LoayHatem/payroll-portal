@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { useAuthStore } from '@/stores/authStore';
-import { FaUser, FaMoneyBill, FaBuilding, FaSignOutAlt, FaTachometerAlt } from 'react-icons/fa';
+import { FaUser, FaMoneyBill, FaSignOutAlt, FaTachometerAlt, FaCog } from 'react-icons/fa';
 import { useUserStore } from '@/stores/userStore';
 
 export const Sidebar: React.FC = () => {
@@ -49,13 +49,13 @@ export const Sidebar: React.FC = () => {
             Salaries
           </Button>
         </Link>
-        <Link href="/dashboard/company" passHref>
+        <Link href="/dashboard/settings" passHref>
           <Button
-            variant={pathname.includes('/company') ? 'default' : 'ghost'}
+            variant={pathname.includes('/settings') ? 'default' : 'ghost'}
             className="w-full justify-start mb-2 flex items-center"
           >
-            <FaBuilding className="mr-2" />
-            Company
+            <FaCog className="mr-2" />
+            Settings
           </Button>
         </Link>
       </nav>

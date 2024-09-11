@@ -4,17 +4,17 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface SlideoutPanelProps {
   isOpen: boolean;
-  onClose: () => void;
+  onOpenChange: (open: boolean) => void;
   title: string;
   description?: string;
   children: React.ReactNode;
 }
 
-const SlideoutPanel: React.FC<SlideoutPanelProps> = ({ isOpen, onClose, title, description, children }) => {
+const SlideoutPanel: React.FC<SlideoutPanelProps> = ({ isOpen, onOpenChange, title, description, children }) => {
   return (
     <Sheet
       open={isOpen}
-      onOpenChange={onClose}
+      onOpenChange={onOpenChange}
     >
       <SheetContent
         side="right"

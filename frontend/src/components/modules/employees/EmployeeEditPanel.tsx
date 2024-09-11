@@ -1,31 +1,37 @@
 import React, { useState, useEffect } from "react";
 import { useEmployeeStore } from "@/stores/employeeStore";
+import { useCustomFieldStore } from "@/stores/customFieldStore";
 import { Employee, Salary, SalaryType } from "@/api/endpoints/employeeEndpoint";
+import { CustomFieldData } from "@/api/endpoints/customFieldEndpoint";
 import SlideoutPanel from "@/components/core/SlideoutPanel";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import SalariesTable from "./SalariesTable";
-import { Separator } from "@/components/ui/separator"
+import { Separator } from "@/components/ui/separator";
 
 interface EmployeeEditPanelProps {
   employee: Employee | null;
   isOpen: boolean;
-  onClose: () => void;
+  onOpenChange: (open: boolean) => void;
 }
 
-const EmployeeEditPanel: React.FC<EmployeeEditPanelProps> = ({ employee, isOpen, onClose }) => {
+const EmployeeEditPanel: React.FC<EmployeeEditPanelProps> = ({ employee, isOpen, onOpenChange }) => {
   const [editedEmployee, setEditedEmployee] = useState<Employee | null>(employee);
   const { updateEmployee, fetchEmployeeSalaries, addEmployeeSalary, deleteEmployeeSalary, fetchSalaryTypes } = useEmployeeStore();
   const [salaries, setSalaries] = useState<Salary[]>([]);
   const [salaryTypes, setSalaryTypes] = useState<SalaryType[]>([]);
+  const { customFields, fetchCustomFields, fetchEmployeeCustomFieldData, updateEmployeeCustomFieldData } = useCustomFieldStore();
+  const [customFieldData, setCustomFieldData] = useState<CustomFieldData[]>([]);
 
   useEffect(() => {
     if (employee) {
       fetchEmployeeSalaries(employee.id).then(setSalaries);
       fetchSalaryTypes().then(setSalaryTypes);
+      fetchCustomFields();
+      fetchEmployeeCustomFieldData(employee.id).then(setCustomFieldData);
     }
-  }, [employee, fetchEmployeeSalaries, fetchSalaryTypes]);
+  }, [employee, fetchEmployeeSalaries, fetchSalaryTypes, fetchCustomFields, fetchEmployeeCustomFieldData]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (editedEmployee) {
@@ -37,14 +43,14 @@ const EmployeeEditPanel: React.FC<EmployeeEditPanelProps> = ({ employee, isOpen,
     e.preventDefault();
     if (editedEmployee) {
       updateEmployee(editedEmployee.id, editedEmployee);
-      onClose();
+      onOpenChange(false);
     }
+    handleSaveCustomFields()
   };
 
   const handleAddSalary = async (newSalary: Salary) => {
     if (editedEmployee) {
       const addedSalary = await addEmployeeSalary(editedEmployee.id, newSalary);
-      console.log("addedSalary", addedSalary);
       if (addedSalary) {
         setSalaries([...salaries, addedSalary]);
       }
@@ -58,16 +64,45 @@ const EmployeeEditPanel: React.FC<EmployeeEditPanelProps> = ({ employee, isOpen,
     }
   };
 
+  const handleCustomFieldChange = (customFieldId: string, value: string) => {
+    const existingDataIndex = customFieldData.findIndex((data) => data.customFieldId === customFieldId);
+    if (existingDataIndex !== -1) {
+      const updatedData = [...customFieldData];
+      updatedData[existingDataIndex] = { ...updatedData[existingDataIndex], value };
+      setCustomFieldData(updatedData);
+    } else {
+      setCustomFieldData([
+        ...customFieldData,
+        {
+          customFieldId,
+          value,
+          employeeId: employee!.id,
+          customField: customFields.find((field) => field.id === customFieldId)!,
+          id: "",
+        },
+      ]);
+    }
+  };
+
+  const handleSaveCustomFields = async () => {
+    for (const data of customFieldData) {
+      await updateEmployeeCustomFieldData(employee!.id, data.customFieldId, data.value);
+    }
+  };
+
   if (!editedEmployee) return null;
 
   return (
     <SlideoutPanel
       isOpen={isOpen}
-      onClose={onClose}
+      onOpenChange={onOpenChange}
       title="Edit Employee"
       description="Update employee information and manage salaries"
     >
-      <div className="space-y-4 mt-4">
+      <form
+        onSubmit={handleSubmit}
+        className="space-y-4 mt-4"
+      >
         <div>
           <Label htmlFor="name">Name</Label>
           <Input
@@ -107,7 +142,26 @@ const EmployeeEditPanel: React.FC<EmployeeEditPanelProps> = ({ employee, isOpen,
           />
         </div>
 
-        <Button onClick={handleSubmit}>Save Changes</Button>
+        <div className="mt-8">
+          <h3 className="text-lg font-semibold mb-4">Custom Fields</h3>
+          {customFields &&
+            customFields.map((field) => (
+              <div
+                key={field.id}
+                className="mb-2"
+              >
+                <Label htmlFor={`custom-${field.id}`}>{field.name}</Label>
+                <Input
+                  id={`custom-${field.id}`}
+                  type={field.type}
+                  value={customFieldData.find((data) => data.customFieldId === field.id)?.value || ""}
+                  onChange={(e) => handleCustomFieldChange(field.id, e.target.value)}
+                />
+              </div>
+            ))}
+
+          <Button onClick={handleSubmit}>Save Changes</Button>
+        </div>
 
         <Separator />
 
@@ -120,8 +174,7 @@ const EmployeeEditPanel: React.FC<EmployeeEditPanelProps> = ({ employee, isOpen,
             onDeleteSalary={handleDeleteSalary}
           />
         </div>
-
-      </div>
+      </form>
     </SlideoutPanel>
   );
 };

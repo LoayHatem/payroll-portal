@@ -18,12 +18,12 @@ export default function EmployeesModule() {
   }, [fetchEmployees]);
 
   const openEditPanel = (employee: Employee) => {
-    console.log("openEditPanel", employee);
     setSelectedEmployee(employee);
     setIsEditPanelOpen(true);
   };
 
-  const closeEditPanel = () => {
+  const onOpenChange = (value: boolean) => {
+    console.log("onOpenChange", value);
     setIsEditPanelOpen(false);
     setSelectedEmployee(null);
   };
@@ -39,7 +39,7 @@ export default function EmployeesModule() {
         <EmployeeEditPanel
           employee={selectedEmployee}
           isOpen={isEditPanelOpen}
-          onClose={closeEditPanel}
+          onOpenChange={onOpenChange}
         />
       )}
     </div>
