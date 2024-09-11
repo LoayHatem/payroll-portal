@@ -3,7 +3,7 @@ import { BaseEndpoint } from "./baseEndpoint";
 export interface DashboardStats {
   totalEmployees: number;
   totalSalaries: number;
-  monthlySalaries: { month: number; year: number; _sum: { amount: number } }[];
+  monthlySalaries: { month: number; year: number; amount: number }[];
   additionsByReason: { id: string; name: string; total_amount: number }[];
   deductionsByReason: { id: string; name: string; total_amount: number }[];
   employeesByDepartment: { position: string; _count: number }[];
