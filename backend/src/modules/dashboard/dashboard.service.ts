@@ -1,4 +1,5 @@
 import { prisma } from "@/db/prisma";
+import _ from "lodash";
 
 export const getDashboardStats = async (userId: string) => {
   const totalEmployees = await prisma.employee.count();
@@ -6,12 +7,15 @@ export const getDashboardStats = async (userId: string) => {
     _sum: { amount: true },
   });
 
-  const monthlySalaries = await prisma.salary.groupBy({
-    by: ["month", "year"],
-    _sum: { amount: true },
-    orderBy: [{ year: "desc" }, { month: "desc" }],
-    take: 12,
-  });
+  const monthlySalaries = await prisma.$queryRaw<Array<{ amount: number; month: string; year: number }>>`
+    SELECT 
+        strftime('%m',  DATETIME(ROUND(t.dueDate / 1000), 'unixepoch')) as month, 
+        strftime('%Y',  DATETIME(ROUND(t.dueDate / 1000), 'unixepoch')) as year,
+        SUM(t.amount) as amount
+    FROM "Transaction" t
+    GROUP BY month, year
+    ORDER BY year DESC, month DESC
+  `;
 
   const additionsByReason = await prisma.$queryRaw<Array<{ id: string; name: string; total_amount: number }>>`
     SELECT sa.id, sa.name, SUM(a.amount) as total_amount

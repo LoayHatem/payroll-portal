@@ -3,13 +3,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 
 interface MonthlySalariesChartProps {
-  data: { month: number; year: number; _sum: { amount: number } }[];
+  data: { month: number; year: number; amount: number }[];
 }
 
 export const MonthlySalariesChart: React.FC<MonthlySalariesChartProps> = ({ data }) => {
   const chartData = data?.map(item => ({
     name: `${item.month}/${item.year}`,
-    total: item._sum.amount
+    total: item.amount
   }));
 
   return (
