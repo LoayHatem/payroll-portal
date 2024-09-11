@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import EmployeesTable from "./EmployeesTable";
 import EmployeeEditPanel from "./EmployeeEditPanel";
+import AddEmployeePanel from "./AddEmployeePanel";
 import { useEmployeeStore } from "@/stores/employeeStore";
 import TableLoader from "@/components/core/TableLoader";
 import { Employee } from "@/api/endpoints/employeeEndpoint";
@@ -11,6 +12,7 @@ export default function EmployeesModule() {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
   const [isEditPanelOpen, setIsEditPanelOpen] = useState(false);
+  const [isAddPanelOpen, setIsAddPanelOpen] = useState(false);
 
   useEffect(() => {
     setIsLoading(true);
@@ -22,10 +24,17 @@ export default function EmployeesModule() {
     setIsEditPanelOpen(true);
   };
 
-  const onOpenChange = (value: boolean) => {
-    console.log("onOpenChange", value);
-    setIsEditPanelOpen(false);
-    setSelectedEmployee(null);
+  const openAddPanel = () => {
+    setIsAddPanelOpen(true);
+  };
+
+  const onEditPanelOpenChange = (value: boolean) => {
+    setIsEditPanelOpen(value);
+    if (!value) setSelectedEmployee(null);
+  };
+
+  const onAddPanelOpenChange = (value: boolean) => {
+    setIsAddPanelOpen(value);
   };
 
   return (
@@ -33,15 +42,19 @@ export default function EmployeesModule() {
       {isLoading ? (
         <TableLoader rows={10} columns={5} />
       ) : (
-        <EmployeesTable openEditPanel={openEditPanel} />
+        <EmployeesTable openEditPanel={openEditPanel} openAddPanel={openAddPanel} />
       )}
       {selectedEmployee && (
         <EmployeeEditPanel
           employee={selectedEmployee}
           isOpen={isEditPanelOpen}
-          onOpenChange={onOpenChange}
+          onOpenChange={onEditPanelOpenChange}
         />
       )}
+      <AddEmployeePanel
+        isOpen={isAddPanelOpen}
+        onOpenChange={onAddPanelOpenChange}
+      />
     </div>
   );
 }

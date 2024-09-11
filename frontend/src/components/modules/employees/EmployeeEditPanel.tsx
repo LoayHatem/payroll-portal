@@ -137,7 +137,7 @@ const EmployeeEditPanel: React.FC<EmployeeEditPanelProps> = ({ employee, isOpen,
             id="joiningDate"
             name="joiningDate"
             type="date"
-            value={editedEmployee.joiningDate}
+            value={editedEmployee.joiningDate ? new Date(editedEmployee.joiningDate).toISOString().split("T")[0] : ""}
             onChange={handleInputChange}
           />
         </div>

@@ -5,7 +5,7 @@ import type { Employee, Salary, SalaryType } from "@/api/endpoints/employeeEndpo
 interface EmployeeStore {
   employees: Employee[] | null;
   fetchEmployees: () => Promise<void>;
-  addEmployee: (employee: Employee) => Promise<void>;
+  addEmployee: (employee: Partial<Employee>) => Promise<void>;
   updateEmployee: (id: string, employee: Employee) => Promise<void>;
   deleteEmployee: (id: string) => Promise<void>;
   fetchEmployeeSalaries: (employeeId: string) => Promise<Salary[]>;
@@ -21,8 +21,8 @@ export const useEmployeeStore = create<EmployeeStore>((set) => ({
     set({ employees });
   },
   addEmployee: async (employee) => {
-    await api.employee.createEmployee(employee);
-    set((state) => ({ employees: [...(state.employees || []), employee] }));
+    const { employee: newEmployee } = await api.employee.createEmployee(employee);
+    set((state) => ({ employees: [...(state.employees || []), newEmployee] }));
   },
   updateEmployee: async (id, employee) => {
     await api.employee.updateEmployee(id, employee);

@@ -15,9 +15,10 @@ import EmployeeAvatar from "@/components/core/EmployeeAvatar";
 
 interface EmployeesTableProps {
   openEditPanel: (employee: Employee) => void;
+  openAddPanel: () => void;
 }
 
-export default function EmployeesTable({ openEditPanel }: EmployeesTableProps) {
+export default function EmployeesTable({ openEditPanel, openAddPanel }: EmployeesTableProps) {
   const { employees, deleteEmployee } = useEmployeeStore();
 
   const columns = useMemo<MRT_ColumnDef<Employee>[]>(
@@ -144,9 +145,7 @@ export default function EmployeesTable({ openEditPanel }: EmployeesTableProps) {
         </Flex>
         <Button
           leftIcon={<FaPlus />}
-          onClick={() => {
-            /* Add new employee logic */
-          }}
+          onClick={openAddPanel}
         >
           Add New Employee
         </Button>

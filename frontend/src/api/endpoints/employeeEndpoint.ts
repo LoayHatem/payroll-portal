@@ -35,7 +35,7 @@ export class EmployeeEndpoint extends BaseEndpoint {
     return res.data;
   }
 
-  async createEmployee(employee: Employee) {
+  async createEmployee(employee: Partial<Employee>) {
     const res = await this.axios.post<{ employee: Employee }>("/employees", employee);
     return res.data;
   }

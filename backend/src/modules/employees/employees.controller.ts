@@ -14,13 +14,11 @@ import _ from "lodash";
 export const employeesController = Router();
 
 employeesController.get("/", async (req, res) => {
-  const userId = req.user.id;
   const employees = await getEmployeesWithTotalSalary();
   return res.json({ employees });
 });
 
 employeesController.post("/", async (req, res) => {
-  const userId = req.user.id;
   const employee = await createEmployee(req.body);
   return res.json({ employee });
 });
