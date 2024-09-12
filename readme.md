@@ -13,7 +13,7 @@
 <img width="500" alt="image" src="https://github.com/user-attachments/assets/438cbddf-b02d-4733-a5ce-8751a0d93bbe">
 
 <img width="500" alt="image" src="https://github.com/user-attachments/assets/bd22e18e-edaf-4bab-83e1-54d5104ae86c">
-<img width="500" alt="image" src="https://github.com/user-attachments/assets/84a27342-92c3-49a3-8ca7-98ae58329034">
+<img width="500" alt="image" src="https://github.com/user-attachments/assets/1caa2999-f403-4a0a-9b5f-0e4a30d9c6f9">
 
 <img width="500" alt="image" src="https://github.com/user-attachments/assets/446dcfc7-3434-408a-a938-0cecf078b92f">
 <img width="500" alt="image" src="https://github.com/user-attachments/assets/8f1ba899-0892-43dd-87cd-d677282638d2">
@@ -29,9 +29,9 @@
 <img width="500" alt="image" src="https://github.com/user-attachments/assets/7c44635d-117b-4983-88da-8fab78b7df77">
 
 ### Advanced Salary Adjustment Editor
-<img width="500" alt="image" src="https://github.com/user-attachments/assets/fab8b4c9-299b-41bb-9611-23ddd185a339">
-<img width="500" alt="image" src="https://github.com/user-attachments/assets/491d3a1a-c920-4edf-b9ec-574a14e5989f">
-<img width="500" alt="image" src="https://github.com/user-attachments/assets/fcddf301-4b3e-433e-b7fd-23bbea2fa402">
+<img width="500" alt="image" src="https://github.com/user-attachments/assets/9650c3db-2995-451c-852c-04ebb966b39e">
+<img width="500" alt="image" src="https://github.com/user-attachments/assets/9c4930df-560c-4922-ba07-a129f48355f5">
+<img width="500" alt="image" src="https://github.com/user-attachments/assets/a3f13463-eaf5-4349-acba-bc6504807246">
 
 ---
 
