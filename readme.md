@@ -4,6 +4,7 @@
 
 ### Dashboard Homepage
 <img width="500" alt="image" src="https://github.com/user-attachments/assets/39161769-b45e-42b3-9cfb-fbe565e54000">
+<img width="500" alt="image" src="https://github.com/user-attachments/assets/22d0e345-88a4-40ee-b670-98f74607c2ec">
 
 ### User Managment
 <img width="500" alt="image" src="https://github.com/user-attachments/assets/6a568080-5bec-4efc-b29b-0e1c9e4b8c10">
