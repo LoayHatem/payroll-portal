@@ -211,7 +211,7 @@ const generateAllowances = (salary: number): Employee["allowances"] => {
 };
 
 const generateJoiningDate = () => {
-  return faker.date.between({ from: "2018-01-01", to: new Date() });
+  return faker.date.between({ from: "2018-01-01", to: "2023-01-01" });
 };
 
 export const generateEmployees = (count: number): Employee[] => {

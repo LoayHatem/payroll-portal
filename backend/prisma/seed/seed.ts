@@ -5,7 +5,10 @@ import { salaryAndAllowances } from "./salaryData";
 const prisma = new PrismaClient();
 
 async function main() {
+  console.log("Starting seed process...");
+
   // Create a user
+  console.log("Creating admin user...");
   const user = await prisma.user.create({
     data: {
       email: "admin@mail.com",
@@ -13,8 +16,20 @@ async function main() {
       name: "Admin User",
     },
   });
+  console.log("Admin user created successfully.");
+
+  console.log("Creating Custom Fields");
+  await prisma.customField.createMany({
+    data: [
+      { name: "Bank Name", type: "text" },
+      { name: "Bank Account Number", type: "text" },
+      { name: "Staff ID", type: "text" },
+      { name: "Emergency Contact Phone", type: "number" },
+    ],
+  });
 
   // Create salary types
+  console.log("Creating salary types...");
   const salaryTypes = await prisma.salaryType.createMany({
     data: [
       { name: "Basic Salary", description: "Base salary for the employee" },
@@ -25,17 +40,26 @@ async function main() {
       { name: "Communication Allowance", description: "Allowance for phone and internet expenses" },
     ],
   });
+  console.log("Salary types created successfully.");
 
   // Create salary adjustments
+  console.log("Creating salary adjustments...");
   await prisma.salaryAdjustment.createMany({
     data: salaryAndAllowances,
   });
+  console.log("Salary adjustments created successfully.");
 
   const allSalaryAdjustments = await prisma.salaryAdjustment.findMany();
 
+  console.log("Generating employees...");
   const employees = generateEmployees(300);
+  console.log(`Generated ${employees.length} employees.`);
 
-  for (const employeeData of employees) {
+  console.log("Creating employee records and transactions...");
+  for (let i = 0; i < employees.length; i++) {
+    const employeeData = employees[i];
+    console.log(`Processing employee ${i + 1} of ${employees.length}: ${employeeData.name}`);
+
     const employee = await prisma.employee.create({
       data: {
         name: employeeData.name,
@@ -81,6 +105,7 @@ async function main() {
       }
     }
 
+    console.log(`Creating transactions for employee ${employeeData.name}...`);
     // Create transactions for 9 months (January 2024 to September 2024)
     for (let month = 1; month <= 9; month++) {
       const transactionStates = ["pending", "inprogress", "paid"];
@@ -156,13 +181,17 @@ async function main() {
       });
     }
   }
+
+  console.log("Seed process completed successfully.");
 }
 
 main()
   .catch((e) => {
-    console.error(e);
+    console.error("An error occurred during the seed process:", e);
     process.exit(1);
   })
   .finally(async () => {
+    console.log("Disconnecting from the database...");
     await prisma.$disconnect();
+    console.log("Database disconnected. Seed process finished.");
   });

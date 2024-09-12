@@ -6,6 +6,8 @@
   "scripts": {
     "test": "jest",
     "dev": "ts-node-dev --respawn --transpile-only --project tsconfig.json -r tsconfig-paths/register src/main.ts",
+    "generate": "npx prisma db push && npx prisma generate",
+    "seed": "npx prisma db seed",
     "build": "tsc --build && tsc-alias",
     "start": "prisma migrate deploy && node dist/main"
   },

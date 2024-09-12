@@ -54,6 +54,9 @@ export function LoginForm() {
       >
         Login
       </Button>
+      use Credential: 
+      email: admin@mail.com
+      password: 123
     </form>
   );
 }
