@@ -177,14 +177,14 @@ export default function PaymentHistoryTable() {
             {row.original.salaries.map((salary, index) => (
               <tr key={`salary-${index}`}>
                 <td>Salary</td>
-                <td>{salary.type.name || 'Base Salary and Allowances'}</td>
+                <td>{salary.type?.name || 'Base Salary and Allowances'}</td>
                 <td style={{ color: 'blue' }}>{salary.amount.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
               </tr>
             ))}
             {row.original.additions.map((addition, index) => (
               <tr key={`addition-${index}`}>
                 <td>Addition</td>
-                <td>{addition.reason.name}</td>
+                <td>{addition.reason?.name || 'Addition'}</td>
                 <td style={{ color: 'green' }}>
                   +{addition.amount.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
                 </td>
@@ -193,7 +193,7 @@ export default function PaymentHistoryTable() {
             {row.original.deductions.map((deduction, index) => (
               <tr key={`deduction-${index}`}>
                 <td>Deduction</td>
-                <td>{deduction.reason.name}</td>
+                <td>{deduction.reason?.name || 'Deduction'}</td>
                 <td style={{ color: 'red' }}>
                   -{deduction.amount.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
                 </td>

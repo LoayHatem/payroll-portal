@@ -50,7 +50,7 @@ const SalariesTable: React.FC<SalariesTableProps> = ({ salaries, salaryTypes, on
               <TableCell>{salary.month}</TableCell>
               <TableCell>{salary.year}</TableCell>
               <TableCell>{salary.amount}</TableCell>
-              <TableCell>{salary.type.name}</TableCell>
+              <TableCell>{salary.type?.name}</TableCell>
               <TableCell>
                 <Button
                   variant="destructive"

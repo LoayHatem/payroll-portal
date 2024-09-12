@@ -19,7 +19,7 @@ export interface Salary {
   year: number;
   amount: number;
   salaryTypeId: string;
-  type: {
+  type?: {
     id: string;
     name: string;
   };
