@@ -12,12 +12,14 @@
 # Salaries Processing
 <img width="500" alt="image" src="https://github.com/user-attachments/assets/438cbddf-b02d-4733-a5ce-8751a0d93bbe">
 
-Adding Additions and deductions for Salary
 <img width="500" alt="image" src="https://github.com/user-attachments/assets/bd22e18e-edaf-4bab-83e1-54d5104ae86c">
 <img width="500" alt="image" src="https://github.com/user-attachments/assets/84a27342-92c3-49a3-8ca7-98ae58329034">
 
 <img width="500" alt="image" src="https://github.com/user-attachments/assets/446dcfc7-3434-408a-a938-0cecf078b92f">
 <img width="500" alt="image" src="https://github.com/user-attachments/assets/8f1ba899-0892-43dd-87cd-d677282638d2">
+
+# Payment History
+
 
 
 #
