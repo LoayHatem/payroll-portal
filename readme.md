@@ -19,8 +19,19 @@
 <img width="500" alt="image" src="https://github.com/user-attachments/assets/8f1ba899-0892-43dd-87cd-d677282638d2">
 
 # Payment History
+<img width="500" alt="image" src="https://github.com/user-attachments/assets/71633a15-837d-48b6-9005-48de52a90f0d">
+<img width="500" alt="image" src="https://github.com/user-attachments/assets/89c85f84-aa72-4e79-8a5f-f72afdc9da69">
+<img width="500" alt="image" src="https://github.com/user-attachments/assets/af712e5f-8e92-42a6-a5a6-bb4b6cfb04ee">
+<img width="500" alt="image" src="https://github.com/user-attachments/assets/d091970c-4ca3-4439-afbc-45a9af5ccdce">
 
+# Customizations
+# Custom fields for employees
+<img width="500" alt="image" src="https://github.com/user-attachments/assets/7c44635d-117b-4983-88da-8fab78b7df77">
 
+# Advanced Salary Adjustment Editor
+<img width="500" alt="image" src="https://github.com/user-attachments/assets/fab8b4c9-299b-41bb-9611-23ddd185a339">
+<img width="500" alt="image" src="https://github.com/user-attachments/assets/491d3a1a-c920-4edf-b9ec-574a14e5989f">
+<img width="500" alt="image" src="https://github.com/user-attachments/assets/fcddf301-4b3e-433e-b7fd-23bbea2fa402">
 
 #
 
