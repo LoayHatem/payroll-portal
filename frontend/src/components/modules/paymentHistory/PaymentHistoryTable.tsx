@@ -178,7 +178,7 @@ export default function PaymentHistoryTable() {
               <tr key={`salary-${index}`}>
                 <td>Salary</td>
                 <td>{salary.type.name || 'Base Salary and Allowances'}</td>
-                <td>{salary.amount.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
+                <td style={{ color: 'blue' }}>{salary.amount.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
               </tr>
             ))}
             {row.original.additions.map((addition, index) => (
