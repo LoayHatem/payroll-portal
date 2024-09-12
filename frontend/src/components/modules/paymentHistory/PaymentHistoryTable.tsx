@@ -5,6 +5,7 @@ import { useTransactionStore } from "@/stores/transactionStore";
 import { Transaction } from "@/api/endpoints/transactionEndpoint";
 import { Badge, Text, Box } from "@mantine/core";
 import { FaPlus, FaMinus } from "react-icons/fa";
+import { Table } from "@mantine/core";
 
 export default function PaymentHistoryTable() {
   const { transactions } = useTransactionStore();
@@ -160,23 +161,56 @@ export default function PaymentHistoryTable() {
     renderDetailPanel: ({ row }) => (
       <Box
         sx={{
-          display: "flex",
-          justifyContent: "flex-end",
-          alignItems: "center",
-          width: "100%",
           padding: "16px",
           backgroundColor: "#f1f3f5",
         }}
       >
-        <Text
-          weight={700}
-          size="lg"
-        >
-          Group Total:{" "}
-          {row.subRows
-            ?.reduce((sum, subRow) => sum + subRow.original.amount, 0)
-            .toLocaleString("en-US", { style: "currency", currency: "USD" })}
-        </Text>
+        <Table striped highlightOnHover>
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Description</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            {row.original.salaries.map((salary, index) => (
+              <tr key={`salary-${index}`}>
+                <td>Salary</td>
+                <td>{salary.type.name || 'Base Salary and Allowances'}</td>
+                <td>{salary.amount.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
+              </tr>
+            ))}
+            {row.original.additions.map((addition, index) => (
+              <tr key={`addition-${index}`}>
+                <td>Addition</td>
+                <td>{addition.name}</td>
+                <td style={{ color: 'green' }}>
+                  +{addition.amount.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
+                </td>
+              </tr>
+            ))}
+            {row.original.deductions.map((deduction, index) => (
+              <tr key={`deduction-${index}`}>
+                <td>Deduction</td>
+                <td>{deduction.name}</td>
+                <td style={{ color: 'red' }}>
+                  -{deduction.amount.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colSpan={2}><strong>Total</strong></td>
+              <td>
+                <strong>
+                  {row.original.amount.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
+                </strong>
+              </td>
+            </tr>
+          </tfoot>
+        </Table>
       </Box>
     ),
   });

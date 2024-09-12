@@ -11,7 +11,15 @@ export const getTransactions = async () => {
           id: true,
         },
       },
-      salaries: true,
+      salaries: {
+        include: {
+          type : {
+            select :{
+              name : true,
+            }
+          }
+        }
+      },
       additions: true,
       deductions: true,
     },

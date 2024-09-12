@@ -18,6 +18,9 @@ export interface Deduction {
 export interface Salary {
   id: string;
   amount: number;
+  type: {
+    name: string;
+  }
 }
 
 export interface Transaction {
