@@ -1,5 +1,9 @@
 # Payroll Portal
 
+## Demo 
+https://github.com/user-attachments/assets/d93170b3-128d-47bc-b958-17a7164d817e
+
+
 ## Screenshots
 
 ### Dashboard Homepage
