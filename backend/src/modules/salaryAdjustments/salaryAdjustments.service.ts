@@ -1,5 +1,6 @@
 import { prisma } from "@/db/prisma";
 import { SalaryAdjustment } from "@prisma/client";
+import _ from "lodash";
 
 export const getSalaryAdjustments = async () => {
   return await prisma.salaryAdjustment.findMany();
@@ -7,7 +8,10 @@ export const getSalaryAdjustments = async () => {
 
 export const createSalaryAdjustment = async (data: Omit<SalaryAdjustment, 'id' | 'createdAt' | 'updatedAt'>) => {
   return await prisma.salaryAdjustment.create({
-    data,
+    data: {
+      ...data,
+      amount: _.toInteger(data.amount),
+    },
   });
 };
 

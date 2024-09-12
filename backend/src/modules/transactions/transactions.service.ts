@@ -57,14 +57,12 @@ export const createTransactions = async (data: TransactionTransferObject[]) => {
             create: transactionData.additions.map(addition => ({
               reasonId: addition.reasonId,
               amount: addition.amount,
-              name: addition.name,
             })),
           },
           deductions: {
             create: transactionData.deductions.map(deduction => ({
               reasonId: deduction.reasonId,
               amount: deduction.amount,
-              name: deduction.name,
             })),
           },
           salaries: {
