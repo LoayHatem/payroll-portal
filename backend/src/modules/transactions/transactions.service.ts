@@ -1,5 +1,4 @@
 import { prisma } from "@/db/prisma";
-import { Prisma } from "@prisma/client";
 import { TransactionTransferObject } from "./transactions.controller";
 
 export const getTransactions = async () => {
@@ -20,8 +19,24 @@ export const getTransactions = async () => {
           }
         }
       },
-      additions: true,
-      deductions: true,
+      additions: {
+        include: {
+          reason: {
+            select: {
+              name: true,
+            },
+          },
+        },  
+      },
+      deductions: {
+        include: {
+          reason: {
+            select: {
+              name: true,
+            },
+          },
+        },
+      },
     },
     orderBy: { createdAt: "desc" },
   });

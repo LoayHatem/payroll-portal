@@ -5,14 +5,18 @@ export interface Addition {
   id: string;
   reasonId: string;
   amount: number;
-  name: string;
+  reason: {
+    name: string;
+  }
 }
 
 export interface Deduction {
   id: string;
   reasonId: string;
   amount: number;
-  name: string;
+  reason: {
+    name: string;
+  }
 }
 
 export interface Salary {

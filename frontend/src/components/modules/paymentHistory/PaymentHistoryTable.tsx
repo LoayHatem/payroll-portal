@@ -184,7 +184,7 @@ export default function PaymentHistoryTable() {
             {row.original.additions.map((addition, index) => (
               <tr key={`addition-${index}`}>
                 <td>Addition</td>
-                <td>{addition.name}</td>
+                <td>{addition.reason.name}</td>
                 <td style={{ color: 'green' }}>
                   +{addition.amount.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
                 </td>
@@ -193,7 +193,7 @@ export default function PaymentHistoryTable() {
             {row.original.deductions.map((deduction, index) => (
               <tr key={`deduction-${index}`}>
                 <td>Deduction</td>
-                <td>{deduction.name}</td>
+                <td>{deduction.reason.name}</td>
                 <td style={{ color: 'red' }}>
                   -{deduction.amount.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
                 </td>
